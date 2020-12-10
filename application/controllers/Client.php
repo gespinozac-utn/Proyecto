@@ -125,7 +125,8 @@ class Client extends CI_Controller
             $this->load->model('Bill_model');
             // Load data
             $order = $this->Bill_model->get_basket($user);
-            $data['basket'] = $this->Bill_model->getDetails($order);
+            $data = null;
+            if($order){$data['basket'] = $this->Bill_model->getDetails($order);}
             if($details = $data['basket']){
                 foreach($details as $detail){
                     $this->load->model('Product_model');
