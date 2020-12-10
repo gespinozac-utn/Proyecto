@@ -51,7 +51,7 @@ class Bill_model extends CI_Model
         return $total;
     }
 
-    private function getDetails($order){
+    public function getDetails($order){
         $id = $order->id;
         $result = $this->db->get_where('detail',array('idOrder'=>$id));
         if($details = $result->result()){
@@ -59,5 +59,21 @@ class Bill_model extends CI_Model
         }else{
             return null;
         }        
+    }
+
+    public function get_orders($user){
+        return $this->db->get_where('order',array('idUser'=>$user->id, 'status'=>1))->result();
+    }
+
+    public function get_detail($detail){
+        return $this->db->get_where('detail',array('idOrder'=>$detail->idOrder))->result()[0];
+    }
+
+    public function get_basket($user){
+        $result = $this->db->get_where('order',array('idUser' =>$user->id,'status'=>0));
+        if($order = $result->result()){
+            return $order[0];
+        }
+        return null;
     }
 }

@@ -12,5 +12,11 @@ class Product_model extends CI_Model
         return null;
     }
 
-
+    public function get_all($filter = null){
+        if($filter){
+            $this->db->like('name',$filter);
+            $this->db->where('idCategory',$filter);
+        }
+        return $this->db->get_where('product',array('stock>'=>'0'))->result();
+    }
 }

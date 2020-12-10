@@ -13,7 +13,7 @@
             </section>
 
             <section class="create">
-                <form action="/" method="POST" autocomplete="off">
+                <form action="/client/addUser" method="POST" autocomplete="off">
                     <div class="row">
                         <div class="six columns">
                             <label for="name">Full name</label>
@@ -48,6 +48,7 @@
                             <input type="password" name="repeatPassword" class="u-full-width" placeholder="Confirm password" required>
                         </div>
                     </div>
+                    <h6><?php echo $this->session->flashdata('message');?></h6>
                     <div class="row">
                         <input type="submit" value="Create Account" class="button u-full-width">
                     </div>

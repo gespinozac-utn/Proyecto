@@ -57,10 +57,14 @@ $route['translate_uri_dashes'] = FALSE;
 $route['login'] = 'client/login';
 $route['register'] = 'client/register';
 $route['catalogue'] = 'client/catalogue';
+$route['catalogue/preview/(:num)'] = 'client/catalogue/preview/$1';
+$route['catalogue/search/(:num)'] = 'client/catalogue/search/$1';
 $route['orders'] = 'client/orders';
+$route['orders/view/(:num)'] = 'client/orders/$1';
 $route['checkout'] = 'client/checkout';
 $route['logout'] = 'client/logout';
 $route['dashboard'] = 'client/dashboard';
+$route['add/new/user'] = 'client/addUser';
 
 // Custom admin routes
 $route['admin/dashboard'] = 'administrator/dashboard';

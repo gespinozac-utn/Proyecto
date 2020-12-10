@@ -30,6 +30,28 @@
                             </thead>
                             <tbody>
                                 <!-- Load orders -->
+                                <?php
+                                    if(isset($basket)){
+                                        foreach($basket as $detail){
+                                            createData($detail);
+                                        }
+                                    }
+                                    function createData($detail)
+                                    {
+                                        $id = $detail->id;
+                                        $quantity = $detail->quantity;
+                                        $product = $detail->product;
+                                        $name = $product->name;
+                                        echo '
+                                        <tr>
+                                            <td>' . $name . '</td>
+                                            <td>' . $quantity . '</td>
+                                            <td><a href="/CRUD/CRUDBill.php?action=delete&id=' . $id . '"><i class="fas fa-times fa-lg"></i></a>
+                                            </td>
+                                        </tr>
+                                        ';
+                                    }
+                                ?>
                                 <!-- loadOrders($_SESSION['user']->get_id()); -->
                             </tbody>
                         </table>

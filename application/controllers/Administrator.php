@@ -43,9 +43,16 @@ class Administrator extends CI_Controller
         $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if($userRole == $this->ADMIN_ROLE){
+            // load models
+            $this->load->model('Bill_model');
+            $this->load->model('User_model');
+            //load data
+            $data['totalClientes'] = $this->User_model->total_clientes();
+            $data['totalProductos'] = $this->Bill_model->totalProductos();
+            $data['totalComprado'] = $this->Bill_model->totalComprado();
             // Load administrator dashboard
             $this->load->view('administrator/navbar');
-            $this->load->view('administrator/dashboard');
+            $this->load->view('administrator/dashboard',$data);
         }else{
             $this->load->view('errors/unauthorized_access');
         }
