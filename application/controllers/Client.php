@@ -33,12 +33,16 @@ class Client extends CI_Controller
 
     public function dashboard()
     {
-        $userRole = $this->get_user()->role;
+        $user = $this->get_user();
+        $userRole = $user ? $user->role : null;
         $this->load->view('templates/header');
         if ($userRole == $this->CLIENT_ROLE) {
+            $this->load->model('Bill_model');
+            $data['totalProductos'] = $this->Bill_model->totalProductos($user);
+            $data['totalComprado'] = $this->Bill_model->totalComprado($user);
             // Load client dashboard
             $this->load->view('client/navbar');
-            $this->load->view('client/dashboard');
+            $this->load->view('client/dashboard',$data);
         } else {
             show_404();
         }
@@ -53,7 +57,7 @@ class Client extends CI_Controller
 
     public function catalogue()
     {
-        $userRole = $this->get_user()->role;
+        $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if ($userRole == $this->CLIENT_ROLE) {
             // Load client catalogue
@@ -67,7 +71,7 @@ class Client extends CI_Controller
 
     public function orders()
     {
-        $userRole = $this->get_user()->role;
+        $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if ($userRole == $this->CLIENT_ROLE) {
             // Load client orders
@@ -81,7 +85,7 @@ class Client extends CI_Controller
 
     public function checkout()
     {
-        $userRole = $this->get_user()->role;
+        $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if ($userRole == $this->CLIENT_ROLE) {
             // Load client checkout
@@ -95,13 +99,13 @@ class Client extends CI_Controller
 
     public function authenticate()
     {
-        $this->load->model('Client_model');
+        $this->load->model('User_model');
         $user = (object)array(
             'username' => $this->input->post('username'), 
             'password' => $this->input->post('password'),
             'role' => null
         );
-        $user = $this->Client_model->auth_user($user);
+        $user = $this->User_model->auth_user($user);
         if($user){
             $this->session->set_userdata('user',$user);
             if($user->role == 'Administrador'){

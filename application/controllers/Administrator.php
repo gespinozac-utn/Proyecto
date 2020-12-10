@@ -14,7 +14,7 @@ class Administrator extends CI_Controller
     }
 
     public function category(){
-        $userRole = $this->get_user()->role;
+        $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if($userRole == $this->ADMIN_ROLE){
             // Load administrator category section
@@ -27,7 +27,7 @@ class Administrator extends CI_Controller
     }
 
     public function product(){
-        $userRole = $this->get_user()->role;
+        $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if($userRole == $this->ADMIN_ROLE){
             // Load administrator category section
@@ -40,7 +40,7 @@ class Administrator extends CI_Controller
     }
 
     public function dashboard(){
-        $userRole = $this->get_user()->role;
+        $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if($userRole == $this->ADMIN_ROLE){
             // Load administrator dashboard
@@ -53,7 +53,7 @@ class Administrator extends CI_Controller
     }
 
     public function addCategory(){
-        $userRole = $this->get_user()->role;
+        $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if($userRole == $this->ADMIN_ROLE){
             // Load administrator create category page
@@ -66,7 +66,7 @@ class Administrator extends CI_Controller
     }
 
     public function addProduct(){
-        $userRole = $this->get_user()->role;
+        $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if($userRole == $this->ADMIN_ROLE){
             // Load administrator create product page
@@ -79,7 +79,7 @@ class Administrator extends CI_Controller
     }
 
     public function editProduct(){
-        $userRole = $this->get_user()->role;
+        $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if($userRole == $this->ADMIN_ROLE){
             // Load administrator create product page
@@ -92,7 +92,7 @@ class Administrator extends CI_Controller
     }
 
     public function editCategory(){
-        $userRole = $this->get_user()->role;
+        $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if($userRole == $this->ADMIN_ROLE){
             // Load administrator create product page
