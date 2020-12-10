@@ -29,7 +29,8 @@ section {
 }
 
 .navbar a:hover,
-a:hover {
+a:hover,
+li>a:hover {
 	color: orangered;
 }
 
@@ -39,6 +40,61 @@ a:hover {
 
 footer {
 	display: none;
+}
+
+.side-menu {
+	width: 16%;
+	position: absolute;
+	z-index: 1;
+	overflow: auto;
+}
+
+li {
+	list-style: none;
+	margin-left: 2rem;
+}
+
+li>a {
+	text-decoration: none;
+	color: black;
+}
+
+.catalogue {
+	min-height: 340px;
+}
+
+.content {
+	margin-left: 16%;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.product-card {
+	padding: 2%;
+	flex-grow: 1;
+	flex-basis: 29%;
+	display: flex;
+}
+
+.product-image img {
+	max-width: 100%;
+	border-radius: 15%;
+	width: 110px;
+	height: 110px;
+}
+
+.product-info {
+	margin-top: auto;
+}
+
+.product-card>a {
+	text-decoration: none;
+	color: black;
+}
+
+.product-info>h6,
+.product-info>h5 {
+	margin-bottom: 1rem;
 }
 
 @media (min-width: 1000px) {

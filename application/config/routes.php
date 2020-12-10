@@ -53,6 +53,20 @@ $route['default_controller'] = 'Client/index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-// Custom routes
-$route['index'] = 'client/index';
+// Custom clients routes
+$route['login'] = 'client/login';
 $route['register'] = 'client/register';
+$route['catalogue'] = 'client/catalogue';
+$route['orders'] = 'client/orders';
+$route['checkout'] = 'client/checkout';
+$route['logout'] = 'client/logout';
+$route['dashboard'] = 'client/dashboard';
+
+// Custom clients routes
+$route['admin/dashboard'] = 'administrator/dashboard';
+$route['category'] = 'administrator/category';
+$route['product'] = 'administrator/product';
+$route['edit/product/(:num)'] = 'administrator/editProduct/$1';
+$route['delete/product/(:num)'] = 'administrator/deleteProduct/$1';
+$route['edit/category/(:num)'] = 'administrator/editCategory/$1';
+$route['delete/category/(:num)'] = 'administrator/deleteCategory/$1';

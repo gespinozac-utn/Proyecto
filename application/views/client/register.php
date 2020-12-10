@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="twelve columns">
                         <nav>
-                            <a href="index" title="Home"><i class="fas fa-home fa-2x"></i></a>
+                            <a href="/" title="Home"><i class="fas fa-home fa-2x"></i></a>
                             <a href="#" title="Create account" class="u-pull-right"><i class="fas fa-plus fa-2x"></i></a>
                         </nav>
                     </div>
