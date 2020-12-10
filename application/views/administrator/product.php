@@ -7,7 +7,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="six columns">
-                            <a href="/administrator/addProduct" class="button button-primary">Create</a>
+                            <a href="/product/add" class="button button-primary">Create</a>
                         </div>
                         <div class="six columns">
                             <div class="u-pull-right">

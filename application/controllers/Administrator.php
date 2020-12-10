@@ -3,18 +3,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Administrator extends CI_Controller
 {
+    private $ADMIN_ROLE = 'Administrador';
+
     public function index(){
         if($this->get_user()){
             $this->dashboard();
         }else{
-            $this->login();
+            redirect('login','refresh');
         }
     }
 
     public function category(){
-        $userRole = $this->get_user();
+        $userRole = $this->get_user()->role;
         $this->load->view('templates/header');
-        if($userRole == 'admin'){
+        if($userRole == $this->ADMIN_ROLE){
             // Load administrator category section
             $this->load->view('administrator/navbar');
             $this->load->view('administrator/category');
@@ -25,9 +27,9 @@ class Administrator extends CI_Controller
     }
 
     public function product(){
-        $userRole = $this->get_user();
+        $userRole = $this->get_user()->role;
         $this->load->view('templates/header');
-        if($userRole == 'admin'){
+        if($userRole == $this->ADMIN_ROLE){
             // Load administrator category section
             $this->load->view('administrator/navbar');
             $this->load->view('administrator/product');
@@ -38,9 +40,9 @@ class Administrator extends CI_Controller
     }
 
     public function dashboard(){
-        $userRole = $this->get_user();
+        $userRole = $this->get_user()->role;
         $this->load->view('templates/header');
-        if($userRole == 'admin'){
+        if($userRole == $this->ADMIN_ROLE){
             // Load administrator dashboard
             $this->load->view('administrator/navbar');
             $this->load->view('administrator/dashboard');
@@ -50,17 +52,10 @@ class Administrator extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    function login(){
-        $userRole = $this->get_user();
-        $this->load->view('templates/header',['userRole'=>$userRole]);
-        $this->load->view('client/login');
-        $this->load->view('templates/footer');
-    }
-
     public function addCategory(){
-        $userRole = $this->get_user();
+        $userRole = $this->get_user()->role;
         $this->load->view('templates/header');
-        if($userRole == 'admin'){
+        if($userRole == $this->ADMIN_ROLE){
             // Load administrator create category page
             $this->load->view('administrator/navbar');
             $this->load->view('administrator/addCategory');
@@ -71,9 +66,9 @@ class Administrator extends CI_Controller
     }
 
     public function addProduct(){
-        $userRole = $this->get_user();
+        $userRole = $this->get_user()->role;
         $this->load->view('templates/header');
-        if($userRole == 'admin'){
+        if($userRole == $this->ADMIN_ROLE){
             // Load administrator create product page
             $this->load->view('administrator/navbar');
             $this->load->view('administrator/addProduct');
@@ -84,9 +79,9 @@ class Administrator extends CI_Controller
     }
 
     public function editProduct(){
-        $userRole = $this->get_user();
+        $userRole = $this->get_user()->role;
         $this->load->view('templates/header');
-        if($userRole == 'admin'){
+        if($userRole == $this->ADMIN_ROLE){
             // Load administrator create product page
             $this->load->view('administrator/navbar');
             $this->load->view('administrator/editProduct');
@@ -97,9 +92,9 @@ class Administrator extends CI_Controller
     }
 
     public function editCategory(){
-        $userRole = $this->get_user();
+        $userRole = $this->get_user()->role;
         $this->load->view('templates/header');
-        if($userRole == 'admin'){
+        if($userRole == $this->ADMIN_ROLE){
             // Load administrator create product page
             $this->load->view('administrator/navbar');
             $this->load->view('administrator/editCategory');

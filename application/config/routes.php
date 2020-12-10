@@ -62,11 +62,15 @@ $route['checkout'] = 'client/checkout';
 $route['logout'] = 'client/logout';
 $route['dashboard'] = 'client/dashboard';
 
-// Custom clients routes
+// Custom admin routes
 $route['admin/dashboard'] = 'administrator/dashboard';
 $route['category'] = 'administrator/category';
 $route['product'] = 'administrator/product';
-$route['edit/product/(:num)'] = 'administrator/editProduct/$1';
-$route['delete/product/(:num)'] = 'administrator/deleteProduct/$1';
-$route['edit/category/(:num)'] = 'administrator/editCategory/$1';
-$route['delete/category/(:num)'] = 'administrator/deleteCategory/$1';
+// admin Product routes
+$route['product/add'] = 'administrator/addProduct';
+$route['product/edit/(:num)'] = 'administrator/editProduct/$1';
+$route['product/delete/(:num)'] = 'administrator/deleteProduct/$1';
+// admin Category routes
+$route['category/add'] = 'administrator/addCategory';
+$route['category/edit/(:num)'] = 'administrator/editCategory/$1';
+$route['category/delete/(:num)'] = 'administrator/deleteCategory/$1';

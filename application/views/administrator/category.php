@@ -7,7 +7,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="four columns">
-                            <a href="/administrator/addCategory" class="button button-primary">Create</a>
+                            <a href="/category/add" class="button button-primary">Create</a>
                         </div>
                         <div class="three columns">
                             <p style="color: red;"></p>
