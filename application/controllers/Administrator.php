@@ -83,19 +83,26 @@ class Administrator extends CI_Controller
     }
 
     public function newCategory(){
-        // Load model
-        $this->load->model('Category_model');
-        // Load data
-        $newCategory = (object)array(
-            'name' => $this->input->post('name'),
-            'parent' => $this->input->post('parent')
-        );
-        // insert data
-        if($this->Category_model->add($newCategory)){
-            redirect('/category','refresh');
+        $userRole = $this->get_user() ? $this->get_user()->role : null;
+        $this->load->view('templates/header');
+        if($userRole == $this->ADMIN_ROLE){
+            // Load model
+            $this->load->model('Category_model');
+            // Load data
+            $newCategory = (object)array(
+                'name' => $this->input->post('name'),
+                'parent' => $this->input->post('parent')
+            );
+            // insert data
+            if($this->Category_model->add($newCategory)){
+                redirect('/category','refresh');
+            }else{
+                $this->session->set_flashdata('message','Error while creating category. Try again.');
+            }
         }else{
-            $this->session->set_flashdata('message','Error while creating category. Try again.');
+            $this->load->view('errors/unauthorized_access');
         }
+        $this->load->view('templates/footer'); 
     }
 
     public function addProduct(){
@@ -124,18 +131,68 @@ class Administrator extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function editCategory(){
+    public function editCategory($id = null){
         $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if($userRole == $this->ADMIN_ROLE){
+            // Load model
+            $this->load->model('Category_model');
+            // Load data
+            $data['categories'] = $this->Category_model->get_all();
+            $data['category'] = $this->Category_model->get_by_id((object)array('id'=>$id));
             // Load administrator create product page
             $this->load->view('administrator/navbar');
-            $this->load->view('administrator/editCategory');
+            $this->load->view('administrator/editCategory',$data);
         }else{
             $this->load->view('errors/unauthorized_access');
         }
         $this->load->view('templates/footer');
     }
+
+    public function updateCategory(){
+        $userRole = $this->get_user() ? $this->get_user()->role : null;
+        $this->load->view('templates/header');
+        if($userRole == $this->ADMIN_ROLE){
+            // Load model
+            $this->load->model('Category_model');
+            // Load data
+            $category = (object)array(
+                'id' => $this->input->post('id'),
+                'name' => $this->input->post('name'),
+                'parent' => $this->input->post('parent')
+            );
+            if($this->Category_model->update($category)){
+                redirect('/category','refresh');
+            }else{
+                $this->session->set_flashdata('message','Error while updating category. Try again.');
+                redirect('/category','refresh');
+            }
+        }else{
+            $this->load->view('errors/unauthorized_access');
+        }
+        $this->load->view('templates/footer');
+    }
+
+    public function deleteCategory($id){
+        $userRole = $this->get_user() ? $this->get_user()->role : null;
+        $this->load->view('templates/header');
+        if($userRole == $this->ADMIN_ROLE){
+            // Load model
+            $this->load->model('Category_model');
+            // Delete category
+            if($this->Category_model->delete((object)array('id'=>$id))){
+                redirect('/category','refresh');
+            }else{
+                $this->session->set_flashdata('message','Error while deleting category. Try again.');
+                redirect('/category','refresh');
+            }
+        }else{
+            $this->load->view('errors/unauthorized_access');
+        }
+        $this->load->view('templates/footer');
+    }
+
+    public function deleteProduct(){}
 
     private function get_user(){
         return $this->session->has_userdata('user') ? $this->session->user : null;

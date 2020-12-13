@@ -13,7 +13,12 @@ class Category_model extends CI_Model
     }
 
     public function update($category){
-        return $this->db->update('category',array('id'=>$category->id));
+        $cat = (object)array(
+            'name' => $category->name,
+            'parent' => $category->parent
+        );
+        $this->db->where('id',$category->id);
+        return $this->db->update('category',$cat);
     }
 
     public function get_all($filter = null){

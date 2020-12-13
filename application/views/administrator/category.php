@@ -39,8 +39,8 @@
                                             <td> ' . $category->name . '</td>
                                             <td> ' . $category->parent . '</td>
                                             <td>
-                                                <a href="/product/edit/'.$category->id.'">Edit</a> |
-                                                <a href="/product/delete/'.$category->id.'" onclick="return confirm(\'Are you sure?\');">Delete</a>
+                                                <a href="/category/edit/'.$category->id.'">Edit</a> |
+                                                <a href="/category/delete/'.$category->id.'" onclick="return confirm(\'Are you sure?\');">Delete</a>
                                             </td>
                                         </tr>
                                     ';
