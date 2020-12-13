@@ -3,11 +3,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Category_model extends CI_Model
 {
+
+    public function add($category){
+        return $this->db->insert('category',$category);
+    }
+
+    public function delete($category){
+        return $this->db->delete('category',array('id'=>$category->id));
+    }
+
+    public function update($category){
+        return $this->db->update('category',array('id'=>$category->id));
+    }
+
     public function get_all($filter = null){
         if(isset($filter)){
             $this->db->like('parent',$filter);
-        }else{
-            $this->db->where('parent', '---');
+            $this->db->or_like('name',$filter);
         }
         return $this->db->get('category')->result();       
     }

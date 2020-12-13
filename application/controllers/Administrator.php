@@ -14,12 +14,18 @@ class Administrator extends CI_Controller
     }
 
     public function category(){
+        $filter = null;
         $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if($userRole == $this->ADMIN_ROLE){
+            // Load Model
+            $this->load->model('Category_model');
+            // Load data
+            if($this->input->get('search')) $filter = $this->input->get('search');
+            $data['categories'] = $this->Category_model->get_all($filter);
             // Load administrator category section
             $this->load->view('administrator/navbar');
-            $this->load->view('administrator/category');
+            $this->load->view('administrator/category',$data);
         }else{
             $this->load->view('errors/unauthorized_access');
         }
@@ -63,13 +69,33 @@ class Administrator extends CI_Controller
         $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if($userRole == $this->ADMIN_ROLE){
+            // Load model
+            $this->load->model('Category_model');
+            // Load Data
+            $data['categories'] = $this->Category_model->get_all();
             // Load administrator create category page
             $this->load->view('administrator/navbar');
-            $this->load->view('administrator/addCategory');
+            $this->load->view('administrator/addCategory', $data);
         }else{
             $this->load->view('errors/unauthorized_access');
         }
         $this->load->view('templates/footer');
+    }
+
+    public function newCategory(){
+        // Load model
+        $this->load->model('Category_model');
+        // Load data
+        $newCategory = (object)array(
+            'name' => $this->input->post('name'),
+            'parent' => $this->input->post('parent')
+        );
+        // insert data
+        if($this->Category_model->add($newCategory)){
+            redirect('/category','refresh');
+        }else{
+            $this->session->set_flashdata('message','Error while creating category. Try again.');
+        }
     }
 
     public function addProduct(){

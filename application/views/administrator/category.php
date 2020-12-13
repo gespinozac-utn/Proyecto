@@ -14,7 +14,7 @@
                         </div>
                         <div class="five columns">
                             <div class="u-pull-right">
-                                <form action="category.php" method="GET">
+                                <form action="/category" method="GET">
                                     <input type="text" placeholder="Search" name="search" title="Search for name">
                                     <button type="submit"><i class="fas fa-search" style="color:grey"></i></button>
                                 </form>
@@ -31,6 +31,21 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php
+                                foreach($categories as $category){
+                                    echo '
+                                        <tr>
+                                            <td>' . $category->id . '</td>
+                                            <td> ' . $category->name . '</td>
+                                            <td> ' . $category->parent . '</td>
+                                            <td>
+                                                <a href="/product/edit/'.$category->id.'">Edit</a> |
+                                                <a href="/product/delete/'.$category->id.'" onclick="return confirm(\'Are you sure?\');">Delete</a>
+                                            </td>
+                                        </tr>
+                                    ';
+                                }
+                            ?>
                         </tbody>
                     </table>
                 </div>
