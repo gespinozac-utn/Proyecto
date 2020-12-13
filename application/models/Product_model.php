@@ -7,6 +7,21 @@ class Product_model extends CI_Model
         return $this->db->insert('product',$product);
     }
 
+    public function update($product){
+        $prod = (object)array(
+            'id' => $product->id,
+            'sku' => $product->sku,
+            'name' => $product->name,
+            'idCategory' => $product->idCategory,
+            'stock' => $product->stock,
+            'price' => $product->price,
+            'description' => $product->description
+        );
+        if(!empty($product->imageURL)) $prod->imageURL = $product->imageURL;
+        $this->db->where('id',$product->id);
+        return $this->db->update('product',$prod);
+    }
+
     public function get_by_id($id){
         $result = $this->db->get_where('product',array('id'=>$id));
         if($product = $result->result()){

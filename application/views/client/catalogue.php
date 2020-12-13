@@ -80,7 +80,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <div class="row u-full-width">
                                     <div class="one column">&nbsp;</div>
                                     <div class="four columns">
-                                        <img src="' . $product->imageURL . '" style="height:200px;width:200px;">
+                                        <img src="http://proyecto.com/'.$product->imageURL . '" style="height:200px;width:200px;">
                                     </div>
                                     <div class="seven columns">
                                         <p>' . $product->description . '</p>

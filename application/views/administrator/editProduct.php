@@ -5,7 +5,7 @@
             <section>
                 <form action="/product/update" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="<?php echo $product->id;?>">
-                    <h3 style="text-align: center;">Create Product</h3>
+                    <h3 style="text-align: center;">Edit Product</h3>
 
                     <div class="row">
                         <div class="six columns">
@@ -19,13 +19,13 @@
                     </div>
                     <div class="row">
                         <div class="six columns">
-                            <label for="parent">Image URL</label>
+                            <label for="imageURL">Image URL</label>
                             <input type="file" name="imageURL" placeholder="Image URL" class="u-full-width" accept="image/png,image/jpg,image/jpeg">
                         </div>
                         <div class="six columns">
                             <label for="name">Category</label>
                             <!-- SELECT COMBOBOX  -->
-                            <select name="parent" id="parent" class="u-full-width">
+                            <select name="category" id="category" class="u-full-width">
                                 <!-- <option value="---">---</option> -->
                                 <?php
                                     foreach($categories as $category){
@@ -61,7 +61,7 @@
                     </div>
                     <h6><?php echo $this->session->flashdata('message'); ?></h6>
                     <div class="row">
-                        <input type="submit" value="Create" class="button-primary u-pull-right">
+                        <input type="submit" value="Update" class="button-primary u-pull-right">
                     </div>
                 </form>
             </section>

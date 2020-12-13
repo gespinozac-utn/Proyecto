@@ -183,6 +183,39 @@ class Administrator extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function updateProduct(){
+        $userRole = $this->get_user() ? $this->get_user()->role : null;
+        $this->load->view('templates/header');
+        if($userRole == $this->ADMIN_ROLE){
+            // Load Model
+            $this->load->model('Product_model');
+            $this->load->model('Category_model');
+            // Load data
+            $product = (object)array(
+                'id' => $this->input->post('id'),
+                'sku' => $this->input->post('sku'),
+                'name' => $this->input->post('name'),
+                'idCategory' => $this->input->post('category'),
+                'stock' => $this->input->post('stock'),
+                'price' => $this->input->post('price'),
+                'description' => $this->input->post('description')
+            );
+            if($file_data = $this->upload_file()){
+                $product->imageURL = 'UPLOADS/'.$file_data['file_name'];
+            }
+            // update product
+            if($this->Product_model->update($product)){
+                redirect('/product','refresh');
+            }else{
+                $this->session->set_flashdata('message','Error while updating product. Try again.');
+                redirect('/product','refresh');
+            }
+        }else{
+            $this->load->view('errors/unauthorized_access');
+        }
+        $this->load->view('templates/footer');
+    }
+
     public function editCategory($id){
         $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
@@ -268,6 +301,7 @@ class Administrator extends CI_Controller
     }
 
     private function upload_file(){
+        if($_FILES['imageURL'] === null) return null;
         // Set configuration
         $config['upload_path'] = 'uploads/'; 
         $config['allowed_types'] = 'jpg|jpeg|png'; 

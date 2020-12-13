@@ -74,6 +74,7 @@ $route['product'] = 'administrator/product';
 $route['product/add'] = 'administrator/addProduct';
 $route['product/new'] = 'administrator/newProduct';
 $route['product/edit/(:num)'] = 'administrator/editProduct/$1';
+$route['product/update'] = 'administrator/updateProduct';
 $route['product/delete/(:num)'] = 'administrator/deleteProduct/$1';
 // admin Category routes
 $route['category/add'] = 'administrator/addCategory';
