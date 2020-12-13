@@ -33,12 +33,22 @@ class Administrator extends CI_Controller
     }
 
     public function product(){
+        $filter = null;
         $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if($userRole == $this->ADMIN_ROLE){
+            // Load model
+            $this->load->model('Product_model');
+            $this->load->model('Category_model');
+            // Load data
+            if($this->input->get('search')) $filter = $this->input->get('search');
+            $data['products'] = $this->Product_model->get_all_filter($filter);
+            foreach($data['products'] as $prod){
+                $prod->category = $this->Category_model->get_by_id((object)array('id'=>$prod->idCategory));
+            }
             // Load administrator category section
             $this->load->view('administrator/navbar');
-            $this->load->view('administrator/product');
+            $this->load->view('administrator/product',$data);
         }else{
             $this->load->view('errors/unauthorized_access');
         }
@@ -118,20 +128,27 @@ class Administrator extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function editProduct(){
+    public function editProduct($id){
         $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if($userRole == $this->ADMIN_ROLE){
+            // Load Model
+            $this->load->model('Product_model');
+            $this->load->model('Category_model');
+            // Load data
+            $data['categories'] = $this->Category_model->get_all();
+            $data['product'] = $this->Product_model->get_by_id($id);
+            $data['product']->category = $this->Category_model->get_by_id((object)array('id'=>$data['product']->idCategory));
             // Load administrator create product page
             $this->load->view('administrator/navbar');
-            $this->load->view('administrator/editProduct');
+            $this->load->view('administrator/editProduct',$data);
         }else{
             $this->load->view('errors/unauthorized_access');
         }
         $this->load->view('templates/footer');
     }
 
-    public function editCategory($id = null){
+    public function editCategory($id){
         $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if($userRole == $this->ADMIN_ROLE){
@@ -192,7 +209,24 @@ class Administrator extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function deleteProduct(){}
+    public function deleteProduct($id){
+        $userRole = $this->get_user() ? $this->get_user()->role : null;
+        $this->load->view('templates/header');
+        if($userRole == $this->ADMIN_ROLE){
+            // Load model
+            $this->load->model('Product_model');
+            // Delete category
+            if($this->Product_model->delete((object)array('id'=>$id))){
+                redirect('/product','refresh');
+            }else{
+                $this->session->set_flashdata('message','Error while deleting product. Try again.');
+                redirect('/product','refresh');
+            }
+        }else{
+            $this->load->view('errors/unauthorized_access');
+        }
+        $this->load->view('templates/footer');
+    }
 
     private function get_user(){
         return $this->session->has_userdata('user') ? $this->session->user : null;
