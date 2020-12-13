@@ -65,7 +65,7 @@ class Client extends CI_Controller
             $this->load->model('Category_model');
             // Load data
             $data['catalogue'] = $this->Product_model->get_all();
-            $data['category'] = $this->Category_model->get_all();
+            $data['category'] = $this->Category_model->get_all('---');
             if($filter && $opt == 'preview'){$data['preview'] = $this->Product_model->get_by_id('---');}
             if($opt == 'search'){
                 $data['parent'] = $this->Category_model->get_by_id((object)array('id'=>$filter));

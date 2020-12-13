@@ -119,9 +119,44 @@ class Administrator extends CI_Controller
         $userRole = $this->get_user() ? $this->get_user()->role : null;
         $this->load->view('templates/header');
         if($userRole == $this->ADMIN_ROLE){
+            // Load model
+            $this->load->model('Category_model');
+            // Load data
+            $data['categories'] = $this->Category_model->get_all();
             // Load administrator create product page
             $this->load->view('administrator/navbar');
-            $this->load->view('administrator/addProduct');
+            $this->load->view('administrator/addProduct',$data);
+        }else{
+            $this->load->view('errors/unauthorized_access');
+        }
+        $this->load->view('templates/footer');
+    }
+
+    public function newProduct(){
+        $userRole = $this->get_user() ? $this->get_user()->role : null;
+        $this->load->view('templates/header');
+        if($userRole == $this->ADMIN_ROLE){
+            // Load model
+            $this->load->model('Category_model');
+            $this->load->model('Product_model');
+            // Load data
+            $data['categories'] = $this->Category_model->get_all();
+            $newProduct = (object)array(
+                'sku' => $this->input->post('sku'),
+                'name' => $this->input->post('name'),
+                'imageURL' => 'UPLOADS/'.$this->upload_file()['file_name'],
+                'idCategory' => $this->input->post('category'),
+                'stock' => $this->input->post('stock'),
+                'price' => $this->input->post('price'),
+                'description' => $this->input->post('description')
+            );
+            // Add new product
+            if($this->Product_model->add($newProduct)){
+                redirect('/product','refresh');
+            }else{
+                $this->session->set_flashdata('message','Error while creating category. Try again.');
+                redirect('/product','refresh');
+            }
         }else{
             $this->load->view('errors/unauthorized_access');
         }
@@ -215,7 +250,7 @@ class Administrator extends CI_Controller
         if($userRole == $this->ADMIN_ROLE){
             // Load model
             $this->load->model('Product_model');
-            // Delete category
+            // Delete product
             if($this->Product_model->delete((object)array('id'=>$id))){
                 redirect('/product','refresh');
             }else{
@@ -230,5 +265,20 @@ class Administrator extends CI_Controller
 
     private function get_user(){
         return $this->session->has_userdata('user') ? $this->session->user : null;
+    }
+
+    private function upload_file(){
+        // Set configuration
+        $config['upload_path'] = 'uploads/'; 
+        $config['allowed_types'] = 'jpg|jpeg|png'; 
+        $config['file_name'] = $_FILES['imageURL']['name']; 
+
+        // Load upload library 
+        $this->load->library('upload',$config);
+        
+        if($this->upload->do_upload('imageURL')){
+            return $this->upload->data();
+        }
+        return null;
     }
 }

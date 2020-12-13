@@ -3,7 +3,7 @@
     ?>
 
             <section>
-                <form action="/product/newProduct" method="POST" enctype="multipart/form-data">
+                <form action="/product/new" method="POST" enctype="multipart/form-data">
                     <h3 style="text-align: center;">Create Product</h3>
 
                     <div class="row">
@@ -24,7 +24,7 @@
                         <div class="six columns">
                             <label for="name">Category</label>
                             <!-- SELECT COMBOBOX  -->
-                            <select name="parent" id="parent" class="u-full-width">
+                            <select name="category" id="category" class="u-full-width">
                                 <!-- <option value="---">---</option> -->
                                 <?php
                                     foreach($categories as $category){

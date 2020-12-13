@@ -3,6 +3,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Product_model extends CI_Model
 {
+    public function add($product){
+        return $this->db->insert('product',$product);
+    }
 
     public function get_by_id($id){
         $result = $this->db->get_where('product',array('id'=>$id));
@@ -33,5 +36,9 @@ class Product_model extends CI_Model
             $this->db->where('idCategory',$filter);
         }
         return $this->db->get_where('product',array('stock>'=>'0'))->result();
+    }
+
+    public function delete($product){
+        return $this->db->delete('product',array('id'=>$product->id));
     }
 }
