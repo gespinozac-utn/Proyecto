@@ -104,7 +104,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 </div>
                                 
                                 <div class="row u-full-width">
-                                    <form action="/basket/add" method=POST>
+                                    <form action="/checkout/add" method=POST>
                                         <input type="hidden" name="idUser" value="'.$product->user->id.'">
                                         <input type="hidden" name="idProduct" value="'.$product->id.'">
                                         <div class="nine columns">

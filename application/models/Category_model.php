@@ -37,4 +37,12 @@ class Category_model extends CI_Model
         }
         return null;
     }
+
+    public function has_childs($category){
+        $categories = $this->db->get_where('category',array('parent'=>$category->name));
+        if($categories){
+            return true;
+        }
+        return false;
+    }
 }

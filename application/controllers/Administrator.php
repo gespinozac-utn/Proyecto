@@ -144,7 +144,7 @@ class Administrator extends CI_Controller
             $newProduct = (object)array(
                 'sku' => $this->input->post('sku'),
                 'name' => $this->input->post('name'),
-                'imageURL' => 'UPLOADS/'.$this->upload_file()['file_name'],
+                'imageURL' => 'UPLOADS/' . ($this->upload_file()['file_name'] == NULL ? 'PLACEHOLDER.PNG' : $this->upload_file()['file_name']),
                 'idCategory' => $this->input->post('category'),
                 'stock' => $this->input->post('stock'),
                 'price' => $this->input->post('price'),
@@ -265,11 +265,16 @@ class Administrator extends CI_Controller
             // Load model
             $this->load->model('Category_model');
             // Delete category
-            if($this->Category_model->delete((object)array('id'=>$id))){
+            if($this->Category_model->has_childs($this->Category_model->get_by_id((object)array('id'=>$id)))){
+                $this->session->set_flashdata('message','Error. Category with childs.');
                 redirect('/category','refresh');
             }else{
-                $this->session->set_flashdata('message','Error while deleting category. Try again.');
-                redirect('/category','refresh');
+                if($this->Category_model->delete((object)array('id'=>$id))){
+                    redirect('/category','refresh');
+                }else{
+                    $this->session->set_flashdata('message','Error while deleting category. Try again.');
+                    redirect('/category','refresh');
+                }
             }
         }else{
             $this->load->view('errors/unauthorized_access');

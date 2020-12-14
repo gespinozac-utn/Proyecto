@@ -5,6 +5,7 @@
             <section class="category">
                 <h3 style="text-align: center;">Category</h3>
                 <div class="container">
+                    <h6><?php echo $this->session->flashdata('message'); ?></h6>
                     <div class="row">
                         <div class="four columns">
                             <a href="/category/add" class="button button-primary">Create</a>

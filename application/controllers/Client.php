@@ -71,7 +71,7 @@ class Client extends CI_Controller
             if($opt == 'search'){
                 $data['parent'] = $this->Category_model->get_by_id((object)array('id'=>$filter));
                 $data['category'] = $this->Category_model->get_all($data['parent']->name);
-                $data['catalogue'] = $this->Product_model->get_all_filter($filter);
+                $data['catalogue'] = $this->Product_model->get_all_category($filter);
             }
             // Load client catalogue
             $this->load->view('client/navbar');
