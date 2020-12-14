@@ -76,4 +76,28 @@ class Bill_model extends CI_Model
         }
         return null;
     }
+
+    public function add_detail($detail){
+        $temp = (object)array(
+            'idOrder' => $detail->idOrder,
+            'idProduct' => $detail->idProduct,
+            'quantity' => $detail->quantity
+        );
+        return $this->db->insert('detail',$temp);
+    }
+
+    public function update($preOrder){
+        $this->db->set('purchaseDate','NOW()', false);
+        $this->db->set('status',$preOrder->status);
+        $this->db->where('id',$preOrder->id);
+        return $this->db->update('order');
+    }
+
+    public function remove_detail($detail){
+        return $this->db->delete('detail',array('id'=>$detail->id));
+    }
+
+    public function create_basket($user){
+         return $this->db->insert('order',array('idUser' => $user->id,'status' => 0)); 
+    }
 }

@@ -82,3 +82,7 @@ $route['category/new'] = 'administrator/newCategory';
 $route['category/edit/(:num)'] = 'administrator/editCategory/$1';
 $route['category/update'] = 'administrator/updateCategory';
 $route['category/delete/(:num)'] = 'administrator/deleteCategory/$1';
+// client basket and orders routes
+$route['checkout/add'] = 'client/add_to_basket';
+$route['checkout/proccess'] = 'client/proccess';
+$route['checkout/remove/(:num)'] = 'client/remove_to_basket/$1';

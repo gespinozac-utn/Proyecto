@@ -46,19 +46,18 @@
                                         <tr>
                                             <td>' . $name . '</td>
                                             <td>' . $quantity . '</td>
-                                            <td><a href="/CRUD/CRUDBill.php?action=delete&id=' . $id . '"><i class="fas fa-times fa-lg"></i></a>
+                                            <td><a href="/checkout/remove/'.$id.'"><i class="fas fa-times fa-lg"></i></a>
                                             </td>
                                         </tr>
                                         ';
                                     }
                                 ?>
-                                <!-- loadOrders($_SESSION['user']->get_id()); -->
                             </tbody>
                         </table>
                         <div class="row">
                             <div class="twelve columns">
-                                <form action="/CRUD/CRUDBill.php?action=checkout" method="POST">
-                                    <input type="hidden" name="idU" value="id"> <!--  echo $user->get_id();   -->
+                                <form action="/checkout/proccess" method="POST">
+                                    <input type="hidden" name="id" value="id"> <!--  echo $user->get_id();   -->
                                     <input type="submit" value="Checkout" class="button u-full-width">
                                 </form>
                             </div>

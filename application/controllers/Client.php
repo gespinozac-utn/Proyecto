@@ -66,11 +66,12 @@ class Client extends CI_Controller
             // Load data
             $data['catalogue'] = $this->Product_model->get_all();
             $data['category'] = $this->Category_model->get_all('---');
+            $data['user'] = $this->get_user();
             if($filter && $opt == 'preview'){$data['preview'] = $this->Product_model->get_by_id($filter);}
             if($opt == 'search'){
                 $data['parent'] = $this->Category_model->get_by_id((object)array('id'=>$filter));
                 $data['category'] = $this->Category_model->get_all($data['parent']->name);
-                $data['catalogue'] = $this->Product_model->get_all($filter);
+                $data['catalogue'] = $this->Product_model->get_all_filter($filter);
             }
             // Load client catalogue
             $this->load->view('client/navbar');
@@ -164,11 +165,6 @@ class Client extends CI_Controller
         }
     }
 
-    private function get_user()
-    {
-        return $this->session->has_userdata('user') ? $this->session->userdata('user') : null;
-    }
-
     public function addUser(){
         $newUser = (object)array(
             'username' => $this->input->post('username'),
@@ -209,5 +205,93 @@ class Client extends CI_Controller
             $this->session->set_flashdata('message', 'Passwords do not match.Try again.');
             redirect('/register','refresh');
         }
+    }
+
+    public function add_to_basket(){
+        $user = $this->get_user();
+        $userRole =  $user ? $user->role : null;
+        $this->load->view('templates/header');
+        if ($userRole == $this->CLIENT_ROLE) {
+            // Load model
+            $this->load->model('Bill_model');
+            // Load data
+            $preOrderDetails = (object)array(
+                'idProduct' => $this->input->post('idProduct'),
+                'quantity' => $this->input->post('quantity'),
+            );
+            $preOrder = null;
+            // getting pre order ready to add details
+            if($temp = $this->Bill_model->get_basket($user)){
+                $preOrder = $temp;
+            }else{
+                $this->Bill_model->create_basket($user);
+                $preOrder = $this->Bill_model->get_basket($user);
+            }
+            if($preOrder){
+                $preOrderDetails->idOrder = $preOrder->id;
+                $this->Bill_model->add_detail($preOrderDetails);
+            }
+            redirect('/checkout','refresh');
+        } else {
+            show_404();
+        }
+        $this->load->view('templates/footer');
+    }
+
+    public function remove_to_basket($idDetail){
+        $user = $this->get_user();
+        $userRole =  $user ? $user->role : null;
+        $this->load->view('templates/header');
+        if ($userRole == $this->CLIENT_ROLE) {
+            // Load model
+            $this->load->model('Bill_model');
+            // Load data
+            $preOrder = $this->Bill_model->get_basket($user);
+            $detail = (object)array(
+                'id' => $idDetail,
+                'idOrder' => $preOrder->id
+            );
+            // getting pre order ready to remove details
+            $this->Bill_model->remove_detail($detail);
+            redirect('/checkout','refresh');
+        } else {
+            show_404();
+        }
+        $this->load->view('templates/footer');
+    }
+
+    public function proccess(){
+        $user = $this->get_user();
+        $userRole =  $user ? $user->role : null;
+        $this->load->view('templates/header');
+        if ($userRole == $this->CLIENT_ROLE) {
+            // Load model
+            $this->load->model('Bill_model');
+            $this->load->model('Product_model');
+            // Load data
+            $preORder = $this->Bill_model->get_basket($user);
+            // getting pre order ready to proccess and completed
+            if($preORder){
+                $details = $this->Bill_model->getDetails($preORder);
+                foreach($details as $detail){
+                    $product = $this->Product_model->get_by_id($detail->idProduct);
+                    $product->stock -= $detail->quantity;
+                    $this->Product_model->update($product);
+                }
+                $preORder->status = 1;
+                $this->Bill_model->update($preORder);
+                redirect('/orders','refresh');
+            }else{
+                show_404(); 
+            }
+        } else {
+            show_404();
+        }
+        $this->load->view('templates/footer');
+    }
+
+    private function get_user()
+    {
+        return $this->session->has_userdata('user') ? $this->session->userdata('user') : null;
     }
 }

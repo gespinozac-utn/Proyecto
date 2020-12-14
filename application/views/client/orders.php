@@ -95,7 +95,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 $productPrice = $product->price;
                                 $productDescription = $product->description;
                                 echo "
-                                <li> $productName
+                                <li> <strong>-- </strong> $productName
                                     <ul>
                                         <li>Quantity: $quantity</li>
                                         <li>Description: $productDescription</li>

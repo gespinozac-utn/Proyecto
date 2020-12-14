@@ -55,7 +55,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <div class="product-card">
                                     <a href="/catalogue/preview/' . $product->id . '">
                                         <div class="product-image">
-                                            <img src="' . $product->imageURL . '">
+                                            <img src="http://proyecto.com/' . $product->imageURL . '">
                                         </div>
                                     <div class="product-info">
                                         <h5>' . $product->name . '</h5>
@@ -65,6 +65,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 </div>';
                             }
                             if(isset($preview)){
+                                $preview->user = $user;
                                 previewProduct($preview);
                             }
                             function previewProduct($product)
@@ -103,7 +104,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 </div>
                                 
                                 <div class="row u-full-width">
-                                    <form action="/CRUD/CRUDBill.php?action=add&idUser=' . $_SESSION['user']->id . '&idP=' . $product->id . '" method=POST>
+                                    <form action="/basket/add" method=POST>
+                                        <input type="hidden" name="idUser" value="'.$product->user->id.'">
+                                        <input type="hidden" name="idProduct" value="'.$product->id.'">
                                         <div class="nine columns">
                                             <input type="number" name="quantity" class="u-pull-right" value="1" min="1" max="' . $product->stock . '" require>
                                         </div>
